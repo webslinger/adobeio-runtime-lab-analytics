@@ -53,11 +53,26 @@ var languageStrings = {
 
 // Create default handlers
 var newSessionHandlers = {
-    'LaunchRequest': function () {
+     'LaunchRequest': function () {
         //Skill was launched
 
-        //TODO: Say Hello!
-        this.emit(':tell', "Hello NAME");
+        //Set RSID selection state
+        this.handler.state = states.STATE_RSID_SELECTION;
+
+        //Store local scope
+        var that = this;
+
+        //Get a list of report suites
+        getReportSuites(this.event.session.user.accessToken, function reportSuitesResponseCallback(err, reportSuites) {
+            //Get a comma separated list of the report suites
+            var reportSuiteList = getReportsSuitesListFromObject(reportSuites);
+            console.log("Reportsuite list " + reportSuiteList);
+
+            that.attributes['reportSuites'] = reportSuites;
+            that.attributes['speechOutput'] = that.t("WELCOME", reportSuiteList);
+            that.attributes['repromptSpeech'] = that.t("WELCOME_REPROMPT", reportSuiteList);
+            that.emit(':ask', that.attributes['speechOutput'], that.attributes['repromptSpeech']);
+        });
     }
 };
 
