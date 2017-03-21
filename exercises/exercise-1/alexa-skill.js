@@ -51,6 +51,16 @@ var languageStrings = {
     }
 };
 
+// Create default handlers
+var newSessionHandlers = {
+    'LaunchRequest': function () {
+        //Skill was launched
+
+        //Say Hello!
+        this.emit(':tell', "Hello Gary");
+    }
+};
+
 var main = function (event) {
     console.log('ALEXA Event', event.request.type + '!');
 
