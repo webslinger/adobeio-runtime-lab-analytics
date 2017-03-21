@@ -68,6 +68,8 @@ var main = function (event) {
     /* default parameter for the action */
     ANALYTICS_COMPANY = event.analytics_company;
     /* default parameter for the action */
+    
+    alexaSDK.registerHandlers(newSessionHandlers);
 
     return new Promise(
         (resolve, reject) => {
